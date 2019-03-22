@@ -1,8 +1,7 @@
 // Codigo de Java Structures: Data Structures for the Principled Programmer
 import java.util.Map;
 
-public class Association <K, V> implements Map.Entry
-{
+public class Association <K extends Comparable, V extends Comparable> implements Map.Entry, Comparable {
     //public boolean equals(Object other)
     // pre: other is non-null Association
 // post: returns true iff the keys are equal
@@ -32,5 +31,22 @@ public class Association <K, V> implements Map.Entry
         Object oldValue = theValue;
         theValue = value;
         return oldValue;
+    }
+    public Object setKey (Object key){
+        Object oldKey = theKey;
+        theKey = key;
+        return  oldKey;
+    }
+
+    @Override
+    public int compareTo(Object o) {
+        return 0;
+    }
+
+    @Override
+    public String toString() {
+        return
+                " " + theKey +
+                " " + theValue ;
     }
 }

@@ -1,10 +1,11 @@
+import java.util.Stack;
+// codigo tomado de https://www.sanfoundry.com/java-program-implement-binary-tree/
+//  Codigo de Java Structures: Data Structures for the Principled Programmer
 public class BinaryTree<E>
 {
-    private Association<E,E> node;
     protected E val; // value associated with node
     protected BinaryTree<E> parent; // parent of node
     protected BinaryTree<E> left, right; // children of node
-
     public BinaryTree()
 // post: constructor that generates an empty node
     {
@@ -14,34 +15,26 @@ public class BinaryTree<E>
     public BinaryTree(E value)
 // post: returns a tree referencing value and two empty subtrees
     {
-        val = value;
-        right = left = new BinaryTree<E>();
-        setLeft(left);
-        setRight(right);
-    }
 
-    public boolean isEmpty(){
-        if(parent == null) return true;
-        else return false;
+        val = value;
+        right = left = null;
+
     }
-    public BinaryTree( E key, E value)
+    public BinaryTree(E value, BinaryTree<E> left, BinaryTree<E> right)
 // post: returns a tree referencing value and two subtrees
     {
-        this.node = new Association<E, E>(key, value);
-    }
-    protected void setParent(BinaryTree<E> newParent)
-// post: re-parents this node to parent reference, or null
-    {
-        if (!isEmpty()) {
-            parent = newParent;
-        }
+        val = value;
+        if (left == null) { left = new BinaryTree<E>(); }
+        setLeft(left);
+        if (right == null) { right = new BinaryTree<E>(); }
+        setRight(right);
     }
     public void setLeft(BinaryTree<E> newLeft)
 // post: sets left subtree to newLeft
 // re-parents newLeft if not null
     {
         if (isEmpty()) return;
-        if (left != null /**&& /**left.parent() == this**/) left.setParent(null);
+        if (left != null && left.parent == this) left.setParent(null);
         left = newLeft;
         left.setParent(this);
     }
@@ -50,11 +43,17 @@ public class BinaryTree<E>
 // re-parents newRight if not null
     {
         if (isEmpty()) return;
-        if (right != null /**&& right.parent() == this **/) right.setParent(null);
+        if (right != null && right.parent == this) right.setParent(null);
         right = newRight;
         right.setParent(this);
     }
-
+    protected void setParent(BinaryTree<E> newParent)
+// post: re-parents this node to parent reference, or null
+    {
+        if (!isEmpty()) {
+            parent = newParent;
+        }
+    }
     public BinaryTree<E> left()
 // post: returns reference to (possibly empty) left subtree
     {
@@ -70,5 +69,12 @@ public class BinaryTree<E>
     {
         val = value;
     }
+    public boolean isEmpty(){
+        if (parent == null & right ==  null & left == null || val == null){
+            return true;
+        }
+        return false;
+    }
+
 
 }

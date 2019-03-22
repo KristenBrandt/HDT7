@@ -1,4 +1,7 @@
 import java.io.*;
+import java.lang.reflect.Array;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Map;
 import java.util.Scanner;
 import java.util.regex.Pattern;
@@ -18,6 +21,8 @@ public class Main {
     public static void main(String[] args) {
         boolean deleViaje = true;
         boolean intepretacionDic = false;
+        Node<Association<String,String>> palabrasNuevas = new Node<>();
+        ArrayList<Association<String,String>> palabs = new ArrayList<>();
         Scanner input = new Scanner(System.in);
 
         do {
@@ -25,31 +30,42 @@ public class Main {
             System.out.println("\n");
             String archivo = input.nextLine();
             if (!archivo.equals("2")) {
-                File archivoUsuario = new File(archivo);
+                File archivoUsuarios = new File(archivo);
                 //El codigo de buffered reader es tomado de la siguiente pagina.
                 //https://stackoverflow.com/questions/5868369/how-to-read-a-large-text-file-line-by-line-using-java
-                try (BufferedReader br = new BufferedReader(new FileReader(archivoUsuario))) {
+                try (BufferedReader br = new BufferedReader(new FileReader(archivoUsuarios))) {
                     String line;
                     while ((line = br.readLine()) != null) {
                         String[] parts = line.split(Pattern.quote(","));
+                        String paretes = parts[0];
                         String part1 = parts[0];
                         String part2 = parts[1];
                         //esto quita los parentesis para que solo queden las palabras
-                        part1 = part1.replace("(", " ");
-                        part2 = part2.replace(")", " ");
+                        part1 = part1.replace("(", "");
+                        part2 = part2.replace(")", "");
                         //agregar las palabras a un binary tree la palabra en ingles se va a agregar como el key y la palabra
                         //en espanol se va a agregar como el value.
-                        BinaryTree<String> palabrasNuevas = new BinaryTree<>(part1,part2);
-                        System.out.println(part1);
-                        System.out.println(part2);
+                        Association palabrota = new Association(part1,part2);
+                        palabrasNuevas.insert(palabrota);
+                        String listo = palabrota.toString();
+                        Object palab = palabrota.theKey;
+                        String kr = palab.toString();
+                        Object pelab =  palabrota.theValue;
+                        String yep = pelab.toString();
+
+
+
                     }
+
 
                 } catch (Exception e) {
                     System.out.println("Intente ingresando la direccion del archivo de nuevo porque no se encontro");
                 }
             }
             // imprimir el archivo de diccionario en inorder
-            // TODO: 2019-03-19 HACER INORDER
+
+            System.out.print(" Se va a imprimir el diccionario en orden inorder \n");
+            palabrasNuevas.inorder();
             intepretacionDic = true;
             do {
                 // PEDIR EL ARCHIVO QUE SE QUIERE LEER
@@ -57,19 +73,23 @@ public class Main {
                 System.out.println("\n");
                 String ingles = input.nextLine();
                 if (!archivo.equals("2")) {
-                    File archivoUsuarios = new File(archivo);
+                    File archivoUsuarios = new File(ingles);
                     try (BufferedReader br = new BufferedReader(new FileReader(archivoUsuarios))) {
                         String line;
                         while ((line = br.readLine()) != null) {
                             String english = line;
-                            String english1 = line.substring(1, english.length()-1);
-                            System.out.println(english1);
-                            String[] parts = line.split(Pattern.quote(","));
+                            System.out.println(english);
+                            System.out.print("Se va a traducir el archivo :");
+                            ArrayList<String> hacer = new ArrayList<>(Arrays.asList(line.split(" ")));
+                            System.out.print(hacer);
+
+
+                            // TODO: 2019-03-19  TRADUCTION
                         }
                     }catch (Exception e) {
                         System.out.println("Intente ingresando la direccion del archivo de nuevo porque no se encontro");
                     }
-                    // TODO: 2019-03-19 HACER LECTURA DE ARCHIVO Y TRADUCTION
+
                     intepretacionDic = false;
                     deleViaje = false;
 
