@@ -48,6 +48,9 @@ public class Main {
                         Association palabrota = new Association(part1,part2);
                         palabrasNuevas.insert(palabrota);
                         String listo = palabrota.toString();
+                        String[] party = line.split(Pattern.quote(","));
+                        String parte = party[0];
+                        String parti = party[1];
                         Object palab = palabrota.theKey;
                         String kr = palab.toString();
                         Object pelab =  palabrota.theValue;
@@ -78,8 +81,8 @@ public class Main {
                         String line;
                         while ((line = br.readLine()) != null) {
                             String english = line;
-                            System.out.println(english);
                             System.out.print("Se va a traducir el archivo :");
+                            System.out.println(english);
                             ArrayList<String> hacer = new ArrayList<>(Arrays.asList(line.split(" ")));
                             System.out.print(hacer);
 
